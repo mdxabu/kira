@@ -1,25 +1,46 @@
 package org.mdxabu.KoolsBot;
 
+import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.IntegrationType;
+import net.dv8tion.jda.api.interactions.InteractionContextType;
+import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
+import org.mdxabu.Commands.Labs.CommandLab;
+import org.mdxabu.Commands.SlashCommands;
 import org.mdxabu.Commands.hello;
+import static net.dv8tion.jda.api.interactions.commands.OptionType.*;
+import java.util.EnumSet;
 
-public class KoolsBot {
 
-    static JDABuilder KoolsBuilder;
+public class KoolsBot extends ListenerAdapter {
 
-    public static void run(){
-        KoolsBuilder = JDABuilder.createDefault(System.getenv("BOT-TOKEN"));
-        KoolsBuilder.setStatus(OnlineStatus.ONLINE);
-        KoolsBuilder.setActivity(Activity.playing("With you :)"));
-        KoolsBuilder.enableIntents(GatewayIntent.MESSAGE_CONTENT);
+    static JDA KoolsBuilder;
 
-        KoolsBuilder.addEventListeners(new hello());
-        KoolsBuilder.build();
+    public static void run() {
+        EnumSet<GatewayIntent> intents = EnumSet.noneOf(GatewayIntent.class);
+        KoolsBuilder = JDABuilder.createLight(System.getenv("BOT-TOKEN"), intents)
+                .addEventListeners(new hello())
+                .addEventListeners(new KoolsBot())
+                .addEventListeners(new SlashCommands())
+                .setActivity(Activity.playing("Genshin Impact"))
+                .setStatus(OnlineStatus.ONLINE)
+                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+                .build();
+
+        CommandListUpdateAction commands = KoolsBuilder.updateCommands();
+
+        commands.addCommands(Commands.slash("say", "Makes the bot say what you tell it to")
+                        .setContexts(InteractionContextType.ALL)
+                        .setIntegrationTypes(IntegrationType.ALL)
+                        .addOption(STRING, "content", "What the bot should say", true))
+                .queue();
+
+
+
     }
-
-
-
 }
