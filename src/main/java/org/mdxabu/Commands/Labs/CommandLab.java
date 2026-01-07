@@ -11,10 +11,17 @@ public class CommandLab {
         event.reply(content).queue();
     }
 
-    public static void getCharacterImage(SlashCommandInteractionEvent event, String CharacterName){
-        EnkaNetworkFetcher enkaApi = new EnkaNetworkFetcher();
+    public static void getCharacterImage(SlashCommandInteractionEvent event, String characterName) {
+        event.deferReply(true).queue(); // acknowledge immediately (ephemeral)
 
-        String url = enkaApi.FetchCharacterImage(CharacterName);
-        event.reply(url).queue();
+        new Thread(() -> {
+            EnkaNetworkFetcher enkaApi = new EnkaNetworkFetcher();
+            String url = enkaApi.FetchCharacterImage(characterName);
+
+            event.getHook()
+                    .editOriginal(url)
+                    .queue();
+        }).start();
     }
+
 }
