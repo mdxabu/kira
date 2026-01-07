@@ -1,6 +1,10 @@
+/*
+This class is the main entry to fetch things from the Enka.network API to get genshin impact API
+
+
+ */
 package org.mdxabu.GenshinData;
 
-import me.kazury.enkanetworkapi.enka.EnkaCache;
 import me.kazury.enkanetworkapi.enka.EnkaNetworkAPI;
 import me.kazury.enkanetworkapi.enka.EnkaNetworkBuilder;
 import me.kazury.enkanetworkapi.util.GameType;
