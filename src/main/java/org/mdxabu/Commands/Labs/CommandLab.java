@@ -12,16 +12,13 @@ public class CommandLab {
     }
 
     public static void getCharacterImage(SlashCommandInteractionEvent event, String characterName) {
-        event.deferReply(true).queue(); // acknowledge immediately (ephemeral)
-
-        new Thread(() -> {
-            EnkaNetworkFetcher enkaApi = new EnkaNetworkFetcher();
-            String url = enkaApi.FetchCharacterImage(characterName);
-
-            event.getHook()
-                    .editOriginal(url)
-                    .queue();
-        }).start();
+        event.deferReply(true).queue(hook -> {
+            new Thread(() -> {
+                EnkaNetworkFetcher enkaApi = new EnkaNetworkFetcher();
+                String url = enkaApi.FetchCharacterImage(characterName);
+                hook.editOriginal(url).queue();
+            }).start();
+        });
     }
 
 }
