@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.IntegrationType;
 import net.dv8tion.jda.api.interactions.InteractionContextType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import org.mdxabu.Commands.Labs.CommandLab;
@@ -40,6 +41,13 @@ public class KoolsBot extends ListenerAdapter {
                         .addOption(STRING, "content", "What the bot should say", true))
                 .queue();
 
+        commands.addCommands(Commands.slash("get-character-image", "Get the character image url")
+                        .addOptions(new OptionData(STRING,"character","Character Name to fetch image").setRequired(true))
+                .setContexts(InteractionContextType.ALL)
+                .setIntegrationTypes(IntegrationType.ALL)).queue();
+
+
+        commands.queue();
 
 
     }

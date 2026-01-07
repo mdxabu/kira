@@ -14,12 +14,15 @@ public class SlashCommands extends ListenerAdapter {
         if(event.getGuild()==null){
             return;
         }
-        if (event.getName().equals("say")) {
-            CommandLab.say(event, Objects.requireNonNull(event.getOption("content")).getAsString());
-        } else {
-            event.reply("I can't handle that command right now :(")
-                    .setEphemeral(true)
-                    .queue();
+        switch (event.getName()){
+            case "say":
+                CommandLab.say(event, Objects.requireNonNull(event.getOption("content")).getAsString());
+
+                break;
+            case "get-character-image":
+                String character = Objects.requireNonNull(event.getOption("character")).getAsString();
+                CommandLab.getCharacterImage(event, character);
+
         }
     }
 }
