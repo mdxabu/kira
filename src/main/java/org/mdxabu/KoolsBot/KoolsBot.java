@@ -36,28 +36,18 @@ public class KoolsBot extends ListenerAdapter {
 
         CommandListUpdateAction commands = KoolsBuilder.updateCommands();
 
-        commands.addCommands(Commands.slash("hello","say hello to kools")).queue();
+        commands.addCommands(Commands.slash("hello","say hello to kools"),
 
-        commands.addCommands(Commands.slash("say", "Makes the bot say what you tell it to")
-                        .setContexts(InteractionContextType.ALL)
-                        .setIntegrationTypes(IntegrationType.ALL)
-                        .addOption(STRING, "content", "What the bot should say", true))
-                .queue();
+                Commands.slash("say","Makes the bot say what you tell it to")
+                        .addOption(STRING, "content", "What the bot should say", true),
 
-//        commands.addCommands(Commands.slash("get-character-image", "Get the character image url")
-//                        .addOptions(new OptionData(STRING,"character","Character Name to fetch image").setRequired(true))
-//                .setContexts(InteractionContextType.ALL)
-//                .setIntegrationTypes(IntegrationType.ALL)).queue();
-
-            commands.addCommands(Commands.slash("get-character-image","get the character image url")
-                    .addOptions(new OptionData(STRING, "character","genshin character")
-                            .addChoice("Varesa","Varesa")
-                            .addChoice("Diluc","Diluc"))
-                    .setContexts(InteractionContextType.ALL)
-                    .setIntegrationTypes(IntegrationType.ALL)).queue();
-
-        commands.queue();
-
+                Commands.slash("get-character-image","Get Character image url")
+                        .addOptions(new OptionData(STRING, "character","genshin character")
+                        .addChoice("Varesa","Varesa")
+                        .addChoice("Diluc","Diluc")
+                        .addChoice("Furina","Furina")
+                        .addChoice("Mualani","Mualani"))
+        ).queue();
 
     }
 }
