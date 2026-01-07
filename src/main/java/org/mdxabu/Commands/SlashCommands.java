@@ -22,6 +22,12 @@ public class SlashCommands extends ListenerAdapter {
             case "get-character-image":
                 String character = Objects.requireNonNull(event.getOption("character")).getAsString();
                 CommandLab.getCharacterImage(event, character);
+                break;
+            case "hello":
+                event.reply("Rawr! Rawr! " + event.getUser().getAsMention()).queue();
+                break;
+            default:
+                event.reply("There is no command like this...").queue();
 
         }
     }

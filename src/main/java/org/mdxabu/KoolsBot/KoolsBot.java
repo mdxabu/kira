@@ -11,11 +11,9 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
-import org.mdxabu.Commands.Labs.CommandLab;
 import org.mdxabu.Commands.SlashCommands;
-import org.mdxabu.Commands.hello;
+
 import static net.dv8tion.jda.api.interactions.commands.OptionType.*;
-import java.util.EnumSet;
 
 
 public class KoolsBot extends ListenerAdapter {
@@ -23,17 +21,19 @@ public class KoolsBot extends ListenerAdapter {
     static JDA KoolsBuilder;
 
     public static void run() {
-        EnumSet<GatewayIntent> intents = EnumSet.noneOf(GatewayIntent.class);
-        KoolsBuilder = JDABuilder.createLight(System.getenv("BOT-TOKEN"), intents)
-                .addEventListeners(new hello())
+        KoolsBuilder = JDABuilder.createDefault(
+                        System.getenv("BOT-TOKEN"),
+                        GatewayIntent.MESSAGE_CONTENT,GatewayIntent.GUILD_MEMBERS, GatewayIntent.GUILD_PRESENCES
+                )
                 .addEventListeners(new KoolsBot())
                 .addEventListeners(new SlashCommands())
                 .setActivity(Activity.playing("Genshin Impact"))
                 .setStatus(OnlineStatus.ONLINE)
-                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .build();
 
         CommandListUpdateAction commands = KoolsBuilder.updateCommands();
+
+        commands.addCommands(Commands.slash("hello","say hello to kools")).queue();
 
         commands.addCommands(Commands.slash("say", "Makes the bot say what you tell it to")
                         .setContexts(InteractionContextType.ALL)

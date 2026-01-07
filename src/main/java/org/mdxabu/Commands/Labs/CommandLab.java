@@ -5,7 +5,6 @@ import org.mdxabu.GenshinData.EnkaNetworkFetcher;
 
 public class CommandLab {
 
-    static EnkaNetworkFetcher enkaApi;
 
 
     public static void say(SlashCommandInteractionEvent event, String content){
@@ -13,7 +12,7 @@ public class CommandLab {
     }
 
     public static void getCharacterImage(SlashCommandInteractionEvent event, String CharacterName){
-        enkaApi = new EnkaNetworkFetcher();
+        EnkaNetworkFetcher enkaApi = new EnkaNetworkFetcher();
 
         String url = enkaApi.FetchCharacterImage(CharacterName);
         event.reply(url).queue();
