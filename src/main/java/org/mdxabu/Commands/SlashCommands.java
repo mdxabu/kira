@@ -17,7 +17,6 @@ public class SlashCommands extends ListenerAdapter {
         switch (event.getName()){
             case "say":
                 CommandLab.say(event, Objects.requireNonNull(event.getOption("content")).getAsString());
-
                 break;
             case "get-character-image":
                 String character = Objects.requireNonNull(event.getOption("character")).getAsString();
