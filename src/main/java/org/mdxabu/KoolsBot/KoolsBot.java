@@ -17,6 +17,7 @@ import org.mdxabu.Commands.SlashCommands;
 import java.util.EnumSet;
 
 import static net.dv8tion.jda.api.interactions.commands.OptionType.*;
+import static net.dv8tion.jda.api.interactions.commands.build.Commands.*;
 
 
 public class KoolsBot extends ListenerAdapter {
@@ -26,7 +27,7 @@ public class KoolsBot extends ListenerAdapter {
     public static void run() {
         EnumSet<GatewayIntent> intents = EnumSet.noneOf(GatewayIntent.class);
         KoolsBuilder = JDABuilder.createLight(
-                        System.getenv("BOT-TOKEN"),intents)
+                        System.getenv("BOT-TOKEN"), intents)
                 .addEventListeners(new KoolsBot())
                 .addEventListeners(new SlashCommands())
                 .setActivity(Activity.playing("Genshin Impact"))
@@ -36,9 +37,9 @@ public class KoolsBot extends ListenerAdapter {
 
         CommandListUpdateAction commands = KoolsBuilder.updateCommands();
 
-        commands.addCommands(Commands.slash("hello","say hello to kools"),
+        commands.addCommands(slash("hello", "say hello to kools"),
 
-                Commands.slash("say","Makes the bot say what you tell it to")
+                Commands.slash("say", "Makes the bot say what you tell it to")
                         .addOption(STRING, "content", "What the bot should say", true),
 
                 Commands.slash("get-character-image", "Get Character image url")
@@ -67,8 +68,13 @@ public class KoolsBot extends ListenerAdapter {
                                 .addChoice("Yae Miko", "Yae")
                                 .addChoice("Kuki Shinobu", "Shinobu")
                                 .addChoice("Arataki Itto", "Itto")
-                                .addChoice("Mona", "Mona"))
+                                .addChoice("Mona", "Mona")),
+
+                Commands.slash("get-user-info", "Get Genshin Impact User Info by UID")
+                        .addOption(STRING, "uid", "UID of the Player",true)
         ).queue();
+
+
 
     }
 }
