@@ -14,8 +14,6 @@ import me.kazury.enkanetworkapi.util.GlobalLocalization;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
-import java.util.ArrayList;
-
 public class EnkaNetworkFetcher {
     EnkaNetworkAPI enkaNetworkAPI;
 
@@ -52,34 +50,6 @@ public class EnkaNetworkFetcher {
         return nickName[0];
     }
 
-    public void FetchProfileCharacterData(String UID) {
-        enkaNetworkAPI.fetchGenshinUser(UID, (user) -> {
-            final GenshinUserInformation info = user.toGenshinUser();
-            System.out.println(info.getNickname());
-            for (GenshinUserCharacter character : info.getCharacters()) {
-                System.out.println(character.getGameData().getName());
-                System.out.println(character.getGameData().getElement());
-            }
-        });
-    }
 
-
-    public void addCharactersToEmbed(String uid, EmbedBuilder embed, SlashCommandInteractionEvent event) {
-        enkaNetworkAPI.fetchGenshinUser(uid, (user) -> {
-            GenshinUserInformation info = user.toGenshinUser();
-
-            for (GenshinUserCharacter character : info.getCharacters()) {
-                embed.addField(
-                        character.getGameData().getName(),
-                        "**Level:** " + character.getCurrentLevel() +
-                                "\n**Element:** " + character.getGameData().getElement() +
-                                "\nStar: " + character.getGameData().getStar(),
-                        true
-                );
-            }
-
-            event.replyEmbeds(embed.build()).queue();
-        });
-    }
 }
 
