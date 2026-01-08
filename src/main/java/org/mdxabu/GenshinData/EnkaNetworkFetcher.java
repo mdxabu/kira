@@ -41,13 +41,15 @@ public class EnkaNetworkFetcher {
 
     }
 
-    public String getNickname(String UID) {
-        final String[] nickName = new String[1];
+    public EmbedBuilder getName(SlashCommandInteractionEvent event, EmbedBuilder embed,String UID) {
         enkaNetworkAPI.fetchGenshinUser(UID, (user) -> {
             final GenshinUserInformation info = user.toGenshinUser();
-            nickName[0] = info.getNickname();
+            embed.setTitle(info.getNickname());
+            embed.setDescription("Level: " + info.getLevel());
+//            event.replyEmbeds(embed.build()).queue();
+//
+            return embed;
         });
-        return nickName[0];
     }
 
 

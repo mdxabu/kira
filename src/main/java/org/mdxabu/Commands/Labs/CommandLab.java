@@ -27,13 +27,19 @@ public class CommandLab {
     }
 
     public static void getUserInfo(SlashCommandInteractionEvent event, String uid) {
+        event.deferReply(true).queue(hook -> {
+            new Thread(() -> {
+                EnkaNetworkFetcher enkaApi = new EnkaNetworkFetcher();
+                enkaApi.getName(event,new EmbedBuilder(),uid);
 
-        EnkaNetworkFetcher enkaApi = new EnkaNetworkFetcher();
 
-        EmbedBuilder embed = new EmbedBuilder();
-        embed.setTitle(enkaApi.getNickname(uid));
 
-        enkaApi.
+
+
+//                event.getHook().editOriginalEmbeds(embed.build()).queue();
+            }).start();
+        });
+
     }
 
 
