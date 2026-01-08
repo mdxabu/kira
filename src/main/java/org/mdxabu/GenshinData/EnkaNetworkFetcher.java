@@ -7,12 +7,14 @@ package org.mdxabu.GenshinData;
 
 import me.kazury.enkanetworkapi.enka.EnkaNetworkAPI;
 import me.kazury.enkanetworkapi.enka.EnkaNetworkBuilder;
-import me.kazury.enkanetworkapi.games.genshin.data.GenshinUserCharacter;
 import me.kazury.enkanetworkapi.games.genshin.data.GenshinUserInformation;
 import me.kazury.enkanetworkapi.util.GameType;
 import me.kazury.enkanetworkapi.util.GlobalLocalization;
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.interactions.InteractionHook;
+
+import java.awt.*;
 
 public class EnkaNetworkFetcher {
     EnkaNetworkAPI enkaNetworkAPI;
@@ -30,6 +32,21 @@ public class EnkaNetworkFetcher {
 
     }
 
+    public void FetchUserInformation(String UID, InteractionHook hook) {
+        EmbedBuilder builder = new EmbedBuilder();
+
+        enkaNetworkAPI.fetchGenshinUser(UID, (user) -> {
+            GenshinUserInformation info = user.toGenshinUser();
+
+            builder.setTitle(info.getNickname());
+            builder.setDescription(String.valueOf(info.getLevel()));
+            builder.setColor(Color.CYAN);
+            builder.setThumbnail(info.getNamecards().getFirst().getNamecardUrl());
+            builder.addField("**Spiral Abyss:** ",info.getAbyssFloor() +"\n**Imaginary Theater Acts:** \n"+ info.getTheaterActs(),true);
+            hook.editOriginalEmbeds(builder.build()).queue();
+        });
+    }
+
     public String FetchCharacterImage(String character) {
         String url;
 
@@ -38,19 +55,10 @@ public class EnkaNetworkFetcher {
         url = enkaNetworkAPI.getGenshinIcon(character_identifier);
 
         return url;
-
     }
 
-    public EmbedBuilder getName(SlashCommandInteractionEvent event, EmbedBuilder embed,String UID) {
-        enkaNetworkAPI.fetchGenshinUser(UID, (user) -> {
-            final GenshinUserInformation info = user.toGenshinUser();
-            embed.setTitle(info.getNickname());
-            embed.setDescription("Level: " + info.getLevel());
-//            event.replyEmbeds(embed.build()).queue();
-//
-            return embed;
-        });
-    }
+
+
 
 
 }
