@@ -70,7 +70,7 @@ public class KoolsBot extends ListenerAdapter {
                                 .addChoice("Arataki Itto", "Itto")
                                 .addChoice("Mona", "Mona")),
 
-                Commands.slash("get-user-info", "Get Genshin Impact User Info by UID")
+                Commands.slash("profile", "Get Genshin Impact User Info by UID")
                         .addOption(STRING, "uid", "UID of the Player",true)
         ).queue();
 

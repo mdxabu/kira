@@ -25,7 +25,7 @@ public class SlashCommands extends ListenerAdapter {
                 String character = Objects.requireNonNull(event.getOption("character")).getAsString();
                 CommandLab.getCharacterImage(event, character);
                 break;
-            case "get-user-info":
+            case "profile":
                 String uid = Objects.requireNonNull(event.getOption("uid")).getAsString();
                 CommandLab.getUserInfo(event, uid);
                 break;

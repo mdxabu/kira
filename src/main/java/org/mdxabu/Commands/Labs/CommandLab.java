@@ -27,9 +27,9 @@ public class CommandLab {
         });
     }
     public static void getUserInfo(SlashCommandInteractionEvent event, String uid) {
-        event.deferReply(true).queue(hook -> {
+        event.deferReply(false).queue(hook -> {
             EnkaNetworkFetcher enkaApi = new EnkaNetworkFetcher();
-            enkaApi.FetchUserInformation(uid, hook);
+            enkaApi.FetchProfile(uid, hook,event);
         });
     }
 
