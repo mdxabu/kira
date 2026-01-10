@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.mdxabu.Commands.SlashCommands;
 
 import java.util.EnumSet;
@@ -32,6 +33,8 @@ public class KoolsBot extends ListenerAdapter {
                 .addEventListeners(new SlashCommands())
                 .setActivity(Activity.playing("Genshin Impact"))
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+                .enableIntents(GatewayIntent.GUILD_EXPRESSIONS)
+                .enableCache(CacheFlag.EMOJI)
                 .setStatus(OnlineStatus.ONLINE)
                 .build();
 

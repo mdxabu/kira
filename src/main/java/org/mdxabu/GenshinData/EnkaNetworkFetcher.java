@@ -18,6 +18,7 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.interactions.InteractionHook;
 
 import java.awt.*;
+import java.util.Random;
 
 public class EnkaNetworkFetcher {
     EnkaNetworkAPI enkaNetworkAPI;
@@ -37,26 +38,25 @@ public class EnkaNetworkFetcher {
 
     public void FetchProfile(String UID, InteractionHook hook, SlashCommandInteractionEvent event) {
         EmbedBuilder builder = new EmbedBuilder();
-        EnkaNetworkAPI api = new EnkaNetworkAPI();
-        Guild guild = (Guild) event.getGuild();
-        Emoji ohno  = (Emoji) guild.getEmojisByName(":ohno:",true);
-//        api.getGenshinIcon(UID);
+        Guild guild = event.getGuild();
+
+        // Fetch your custom emojis by name
+        assert guild != null;
+//        event.getGuild().getEmojis().forEach(emoji -> System.out.println("Emoji Found: " + emoji.getName()));
+        String arEmoji = getEmoji(guild, "adventurerank");
+        String abyssEmoji = getEmoji(guild, "spiralabyss");
+        String Mondstadt = event.getJDA().getEmojisByName("mondstadt",true).toString();
+        String theaterEmoji = getEmoji(guild, "theatre");
 
         enkaNetworkAPI.fetchGenshinUser(UID, (user) -> {
             GenshinUserInformation info = user.toGenshinUser();
 
-
-            builder.setTitle(info.getNickname());
-            builder.setDescription("AR "+ info.getLevel());
-            builder.setColor(Color.CYAN);
+            builder.setTitle(info.getNickname()+"'s Stats");
+            builder.setColor(Color.BLUE);
             builder.setThumbnail("https://yoolk.ninja/wp-content/uploads/2021/08/Games-GenshinImpact-1024x1024.png");
-            builder.addField("**World Level:** "+ info.getWorldLevel(),
-                    "**Imaginary Theater Acts:** "+ info.getTheaterActs() +
-                            "\n**Spiral Abyss:** " + info.getAbyssFloor() +
-                    "\n**Total Achievements:** " + info.getAchievementsCompleted() +
-                    "\n**Stygian Onslaught:** " + info.getStygianIndex() +
-                    "\n:ohno:",true);
-            builder.addField(":ohno:","Click to view",true);
+
+            builder.setDescription("AR: "+ info.getLevel() + "\nWorld Level: " + info.getWorldLevel());
+
             hook.editOriginalEmbeds(builder.build()).queue();
         });
     }
@@ -69,6 +69,14 @@ public class EnkaNetworkFetcher {
         url = enkaNetworkAPI.getGenshinIcon(character_identifier);
 
         return url;
+    }
+
+    private String getEmoji(Guild guild, String name) {
+        return guild.getEmojisByName(name, true)
+                .stream()
+                .findFirst()
+                .map(emoji -> emoji.getAsMention() + " ") // Returns <:name:id>
+                .orElse(""); // Returns empty string if emoji isn't found
     }
 
 
