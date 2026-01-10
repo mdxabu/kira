@@ -7,12 +7,14 @@ package org.mdxabu.GenshinData;
 
 import me.kazury.enkanetworkapi.enka.EnkaNetworkAPI;
 import me.kazury.enkanetworkapi.enka.EnkaNetworkBuilder;
+import me.kazury.enkanetworkapi.games.genshin.data.GenshinAffix;
 import me.kazury.enkanetworkapi.games.genshin.data.GenshinUserInformation;
 import me.kazury.enkanetworkapi.util.GameType;
 import me.kazury.enkanetworkapi.util.GlobalLocalization;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.MessageEmbed;
+import net.dv8tion.jda.api.entities.emoji.CustomEmoji;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.interactions.InteractionHook;
@@ -42,20 +44,22 @@ public class EnkaNetworkFetcher {
 
         // Fetch your custom emojis by name
         assert guild != null;
-//        event.getGuild().getEmojis().forEach(emoji -> System.out.println("Emoji Found: " + emoji.getName()));
-        String arEmoji = getEmoji(guild, "adventurerank");
-        String abyssEmoji = getEmoji(guild, "spiralabyss");
-        String Mondstadt = event.getJDA().getEmojisByName("mondstadt",true).toString();
-        String theaterEmoji = getEmoji(guild, "theatre");
+
+
+        String mondstadt = Emoji.fromCustom("mondstadt",1459543172391768266L,false).getAsMention();
+
+
 
         enkaNetworkAPI.fetchGenshinUser(UID, (user) -> {
             GenshinUserInformation info = user.toGenshinUser();
+
 
             builder.setTitle(info.getNickname()+"'s Stats");
             builder.setColor(Color.BLUE);
             builder.setThumbnail("https://yoolk.ninja/wp-content/uploads/2021/08/Games-GenshinImpact-1024x1024.png");
 
             builder.setDescription("AR: "+ info.getLevel() + "\nWorld Level: " + info.getWorldLevel());
+            builder.addField("**World Exploration**",mondstadt+"Mondstadt",true);
 
             hook.editOriginalEmbeds(builder.build()).queue();
         });
@@ -70,18 +74,6 @@ public class EnkaNetworkFetcher {
 
         return url;
     }
-
-    private String getEmoji(Guild guild, String name) {
-        return guild.getEmojisByName(name, true)
-                .stream()
-                .findFirst()
-                .map(emoji -> emoji.getAsMention() + " ") // Returns <:name:id>
-                .orElse(""); // Returns empty string if emoji isn't found
-    }
-
-
-
-
 
 }
 
