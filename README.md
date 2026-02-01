@@ -1,1 +1,1 @@
-# Kools - Discord bot for fun
+# Kira

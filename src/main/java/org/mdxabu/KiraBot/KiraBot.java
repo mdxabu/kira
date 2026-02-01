@@ -27,7 +27,7 @@ public class KiraBot extends ListenerAdapter {
                         System.getenv("BOT-TOKEN"), intents)
                 .addEventListeners(new KiraBot())
                 .addEventListeners(new SlashCommands())
-                .setActivity(Activity.playing("Genshin Impact"))
+                .setActivity(Activity.watching("You..."))
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
                 .enableIntents(GatewayIntent.GUILD_EXPRESSIONS)
                 .enableCache(CacheFlag.EMOJI)
