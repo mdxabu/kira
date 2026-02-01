@@ -36,7 +36,7 @@ public class KiraBot extends ListenerAdapter {
 
         CommandListUpdateAction commands = kiraBuilder.updateCommands();
 
-        commands.addCommands(slash("hello", "say hello to kools"),
+        commands.addCommands(slash("hello", "say hello to Kira"),
 
                 Commands.slash("say", "Makes the bot say what you tell it to")
                         .addOption(STRING, "content", "What the bot should say", true)
