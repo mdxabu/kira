@@ -39,7 +39,10 @@ public class KiraBot extends ListenerAdapter {
         commands.addCommands(slash("hello", "say hello to Kira"),
 
                 Commands.slash("say", "Makes the bot say what you tell it to")
-                        .addOption(STRING, "content", "What the bot should say", true)
+                        .addOption(STRING, "content", "What the bot should say", true),
+
+                Commands.slash("write","write the name you want to be in the deathnote :)")
+                        .addOption(STRING, "name","Name of the person",true)
 
 
 

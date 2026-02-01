@@ -21,7 +21,9 @@ public class SlashCommands extends ListenerAdapter {
             case "say":
                 CommandLab.say(event, Objects.requireNonNull(event.getOption("content")).getAsString());
                 break;
-
+            case "write":
+                CommandLab.writeName(event, Objects.requireNonNull(event.getOption("name")).getAsString());
+                break;
             default:
                 event.reply("There is no command like this...").queue();
 
