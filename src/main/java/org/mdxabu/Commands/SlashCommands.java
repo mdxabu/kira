@@ -21,14 +21,6 @@ public class SlashCommands extends ListenerAdapter {
             case "say":
                 CommandLab.say(event, Objects.requireNonNull(event.getOption("content")).getAsString());
                 break;
-            case "get-character-image":
-                String character = Objects.requireNonNull(event.getOption("character")).getAsString();
-                CommandLab.getCharacterImage(event, character);
-                break;
-            case "profile":
-                String uid = Objects.requireNonNull(event.getOption("uid")).getAsString();
-                CommandLab.getUserInfo(event, uid);
-                break;
 
             default:
                 event.reply("There is no command like this...").queue();
