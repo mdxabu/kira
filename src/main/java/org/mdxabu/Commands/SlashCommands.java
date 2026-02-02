@@ -16,7 +16,7 @@ public class SlashCommands extends ListenerAdapter {
         }
         switch (event.getName()){
             case "hello":
-                event.reply("Rawr! Rawr! " + event.getUser().getAsMention()).queue();
+                event.reply("Hello, " + event.getUser().getAsMention()).queue();
                 break;
             case "say":
                 CommandLab.say(event, Objects.requireNonNull(event.getOption("content")).getAsString());
