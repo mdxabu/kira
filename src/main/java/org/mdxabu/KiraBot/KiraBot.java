@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import org.mdxabu.Commands.Labs.inMessageCommands;
 import org.mdxabu.Commands.SlashCommands;
 
 import java.util.EnumSet;
@@ -22,17 +23,19 @@ public class KiraBot extends ListenerAdapter {
     static JDA kiraBuilder;
 
     public static void run() {
-        EnumSet<GatewayIntent> intents = EnumSet.noneOf(GatewayIntent.class);
-        kiraBuilder = JDABuilder.createLight(
-                        System.getenv("BOT-TOKEN"), intents)
+        EnumSet<GatewayIntent> intents = EnumSet.of(
+                GatewayIntent.GUILD_MESSAGES,
+                GatewayIntent.MESSAGE_CONTENT
+        );
+
+        kiraBuilder = JDABuilder.createLight(System.getenv("BOT-TOKEN"), intents)
                 .addEventListeners(new KiraBot())
                 .addEventListeners(new SlashCommands())
+                .addEventListeners(new inMessageCommands())
                 .setActivity(Activity.watching("You..."))
-                .enableIntents(GatewayIntent.MESSAGE_CONTENT)
-                .enableIntents(GatewayIntent.GUILD_EXPRESSIONS)
-                .enableCache(CacheFlag.EMOJI)
                 .setStatus(OnlineStatus.ONLINE)
                 .build();
+
 
         CommandListUpdateAction commands = kiraBuilder.updateCommands();
 
