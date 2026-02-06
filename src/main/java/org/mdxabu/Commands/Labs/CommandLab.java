@@ -1,24 +1,21 @@
 package org.mdxabu.Commands.Labs;
 
-import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.MessageEmbed;
-import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Random;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 public class CommandLab {
 
-
-    public static void say(SlashCommandInteractionEvent event, String content){
+    public static void say(SlashCommandInteractionEvent event, String content) {
         event.reply(content).queue();
     }
 
-
-    public static void writeName(SlashCommandInteractionEvent event, String name) {
-
-
+    public static void writeName(
+        SlashCommandInteractionEvent event,
+        String name
+    ) {
         ArrayList<String> titles = new ArrayList<>();
 
         titles.add("Do you hear that?");
@@ -35,12 +32,12 @@ public class CommandLab {
         Random random = new Random();
         String randomTitle = titles.get(random.nextInt(titles.size()));
 
-
         EmbedBuilder embed = new EmbedBuilder();
         embed.setTitle(randomTitle);
-        embed.setImage("https://media.tenor.com/0AEB38Hz1PMAAAAM/death-note-light.gif");
+        embed.setImage(
+            "https://media.tenor.com/0AEB38Hz1PMAAAAM/death-note-light.gif"
+        );
         embed.setColor(Color.RED);
-
 
         event.replyEmbeds(embed.build()).queue();
     }

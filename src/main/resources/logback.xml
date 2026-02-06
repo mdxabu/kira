@@ -1,0 +1,19 @@
+<configuration>
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Suppress noisy JDA debug logs -->
+    <logger name="net.dv8tion.jda" level="INFO" />
+    <logger name="com.mongodb" level="WARN" />
+    <logger name="org.mongodb" level="WARN" />
+
+    <!-- Application logging -->
+    <logger name="org.mdxabu" level="DEBUG" />
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+    </root>
+</configuration>
