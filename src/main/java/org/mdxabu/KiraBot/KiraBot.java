@@ -14,7 +14,6 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import org.mdxabu.Commands.Labs.inMessageCommands;
 import org.mdxabu.Commands.SlashCommands;
-import org.mdxabu.Database.MongoManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,26 +24,6 @@ public class KiraBot extends ListenerAdapter {
     static JDA kiraBuilder;
 
     public static void run() {
-        // --- Initialize MongoDB ---
-        String mongoUri = System.getenv("MONGO_URI");
-        if (mongoUri == null || mongoUri.isBlank()) {
-            logger.error(
-                "MONGO_URI environment variable is not set! Please set it before running the bot."
-            );
-            logger.info(
-                "Example: export MONGO_URI=\"mongodb://localhost:27017\" or use a MongoDB Atlas connection string."
-            );
-            System.exit(1);
-        }
-
-        try {
-            MongoManager.initialize(mongoUri);
-            logger.info("MongoDB initialized successfully.");
-        } catch (Exception e) {
-            logger.error("Failed to initialize MongoDB: {}", e.getMessage());
-            System.exit(1);
-        }
-
         // --- Build JDA ---
         String botToken = System.getenv("BOT-TOKEN");
         if (botToken == null || botToken.isBlank()) {
@@ -61,7 +40,7 @@ public class KiraBot extends ListenerAdapter {
             .addEventListeners(new KiraBot())
             .addEventListeners(new SlashCommands())
             .addEventListeners(new inMessageCommands())
-            .setActivity(Activity.watching("You... \uD83C\uDFA3"))
+            .setActivity(Activity.watching("You..."))
             .setStatus(OnlineStatus.ONLINE)
             .build();
 
@@ -70,7 +49,6 @@ public class KiraBot extends ListenerAdapter {
 
         commands
             .addCommands(
-                // ========== Original Commands ==========
                 slash("hello", "Say hello to Kira"),
                 Commands.slash(
                     "say",
@@ -79,58 +57,7 @@ public class KiraBot extends ListenerAdapter {
                 Commands.slash(
                     "write",
                     "Write the name you want to be in the deathnote :)"
-                ).addOption(STRING, "name", "Name of the person", true),
-                // ========== Economy Commands ==========
-                Commands.slash("balance", "Check your coin balance and wallet"),
-                Commands.slash(
-                    "daily",
-                    "Claim your daily 200 coins (24h cooldown)"
-                ),
-                Commands.slash(
-                    "shop",
-                    "Browse the item shop — fishing rods, traps, and more"
-                ),
-                Commands.slash(
-                    "buy",
-                    "Purchase an item from the shop"
-                ).addOption(
-                    STRING,
-                    "item",
-                    "The item ID or name to buy (e.g. fishing_rod)",
-                    true
-                ),
-                Commands.slash(
-                    "sell",
-                    "Sell an item from your inventory for 50% of its price"
-                ).addOption(
-                    STRING,
-                    "item",
-                    "The item ID or name to sell (e.g. fishing_rod)",
-                    true
-                ),
-                Commands.slash("inventory", "View all items in your inventory"),
-                // ========== Fishing & Trapping ==========
-                Commands.slash(
-                    "fish",
-                    "Cast your fishing rod and catch fish! (Requires a Fishing Rod)"
-                ),
-                Commands.slash(
-                    "trap",
-                    "Check your food trap for caught animals! (Requires a Food Trap)"
-                ),
-                // ========== Profile & Stats ==========
-                Commands.slash(
-                    "profile",
-                    "View your full player profile with stats and gear"
-                ),
-                Commands.slash(
-                    "leaderboard",
-                    "View the top 10 richest players"
-                ),
-                Commands.slash(
-                    "ecohelp",
-                    "Show all economy, fishing, and trapping commands"
-                )
+                ).addOption(STRING, "name", "Name of the person", true)
             )
             .queue(
                 success ->
@@ -149,12 +76,6 @@ public class KiraBot extends ListenerAdapter {
         Runtime.getRuntime().addShutdownHook(
             new Thread(() -> {
                 logger.info("Shutting down Kira bot...");
-                try {
-                    MongoManager.getInstance().close();
-                    logger.info("MongoDB connection closed.");
-                } catch (Exception e) {
-                    logger.warn("Error closing MongoDB: {}", e.getMessage());
-                }
                 if (kiraBuilder != null) {
                     kiraBuilder.shutdown();
                     logger.info("JDA shutdown complete.");
@@ -162,12 +83,6 @@ public class KiraBot extends ListenerAdapter {
             })
         );
 
-        logger.info("Kira bot is starting up with economy & fishing system!");
-        logger.info(
-            "Entry bonus: 500 coins | Daily: 200 coins | Shop items: 8"
-        );
-        logger.info(
-            "Commands: /fish, /trap, /shop, /buy, /sell, /inventory, /balance, /daily, /profile, /leaderboard"
-        );
+        logger.info("Kira bot is starting up!");
     }
 }
