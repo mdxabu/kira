@@ -41,4 +41,36 @@ public class CommandLab {
 
         event.replyEmbeds(embed.build()).queue();
     }
+
+    public static void rps(SlashCommandInteractionEvent event, String choice) {
+        String[] choices = { "rock", "paper", "scissors" };
+        Random rand = new Random();
+        String botChoice = choices[rand.nextInt(3)];
+        String result;
+        String gifUrl;
+        if (choice.equals(botChoice)) {
+            result = "It's a tie! Both chose " + choice + ".";
+            gifUrl =
+                "https://media.tenor.com/9Q2zXVtJZ6AAAAAM/rock-paper-scissors-tie.gif";
+        } else if (
+            (choice.equals("rock") && botChoice.equals("scissors")) ||
+            (choice.equals("paper") && botChoice.equals("rock")) ||
+            (choice.equals("scissors") && botChoice.equals("paper"))
+        ) {
+            result =
+                "You win! I chose " + botChoice + ", you chose " + choice + ".";
+            gifUrl =
+                "https://media.tenor.com/0AEB38Hz1PMAAAAM/death-note-light.gif";
+        } else {
+            result =
+                "I win! I chose " + botChoice + ", you chose " + choice + ".";
+            gifUrl =
+                "https://media.tenor.com/0AEB38Hz1PMAAAAM/death-note-ryuk.gif";
+        }
+        EmbedBuilder embed = new EmbedBuilder();
+        embed.setTitle(result);
+        embed.setImage(gifUrl);
+        embed.setColor(Color.BLUE); // Or any color
+        event.replyEmbeds(embed.build()).queue();
+    }
 }

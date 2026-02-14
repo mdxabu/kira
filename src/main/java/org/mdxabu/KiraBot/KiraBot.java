@@ -10,6 +10,7 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
+import net.dv8tion.jda.api.interactions.commands.build.OptionData;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandListUpdateAction;
 import org.mdxabu.Commands.Labs.inMessageCommands;
@@ -57,7 +58,13 @@ public class KiraBot extends ListenerAdapter {
                 Commands.slash(
                     "write",
                     "Write the name you want to be in the deathnote :)"
-                ).addOption(STRING, "name", "Name of the person", true)
+                ).addOption(STRING, "name", "Name of the person", true),
+                Commands.slash("rps", "Rock Paper Scissor Shoot!").addOptions(
+                    new OptionData(STRING, "choice", "Enter your choice", true)
+                        .addChoice("Rock", "rock")
+                        .addChoice("Paper", "paper")
+                        .addChoice("Scissors", "scissors")
+                )
             )
             .queue(
                 success ->
