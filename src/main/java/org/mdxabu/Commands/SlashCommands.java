@@ -46,6 +46,8 @@ public class SlashCommands extends ListenerAdapter {
             case "rps":
                 CommandLab.rps(event, event.getOption("choice").getAsString());
                 break;
+            case "chucknorrisejokes":
+                
             default:
                 event.reply("There is no command like this...").queue();
         }

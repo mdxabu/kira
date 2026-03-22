@@ -1,8 +1,16 @@
 package org.mdxabu.Commands.Labs;
 
 import java.awt.*;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.ArrayList;
 import java.util.Random;
+
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
@@ -72,5 +80,30 @@ public class CommandLab {
         embed.setImage(gifUrl);
         embed.setColor(Color.BLUE); // Or any color
         event.replyEmbeds(embed.build()).queue();
+    }
+
+    public static void randomChuckNorrisJokes(SlashCommandInteractionEvent event) throws IOException, InterruptedException {
+        String BaseURL = "https://api.chucknorris.io/jokes/random";
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(BaseURL))
+                .header("Accept","application/json")
+                .build();
+
+        HttpResponse<String> response = client.send(request,HttpResponse.BodyHandlers.ofString());
+
+
+        JsonObject jsonObj = JsonParser.parseString(response.body()).getAsJsonObject();
+
+        EmbedBuilder embed = new EmbedBuilder();
+        embed.setTitle("Chuck Norrise Random Jokes :)");
+        embed.setColor(Color.CYAN);
+        embed.setDescription(jsonObj.get("value").getAsString());
+        embed.setThumbnail("https://images02.military.com/sites/default/files/2021-04/chucknorris.jpeg");
+
+        event.replyEmbeds(embed.build()).queue();
+
+
     }
 }
