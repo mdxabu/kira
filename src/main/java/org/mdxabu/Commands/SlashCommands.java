@@ -1,6 +1,8 @@
 package org.mdxabu.Commands;
 
 import java.util.Objects;
+import java.util.Random;
+
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +22,10 @@ public class SlashCommands extends ListenerAdapter {
             // --- Original Commands ---
             case "hello":
                 event.reply("Hello, " + event.getUser().getAsMention()).queue();
+                break;
+            case "roll":
+                int randomRoll = new Random().nextInt(1,7);
+                event.reply("You got "+randomRoll+", MF!").queue();
                 break;
             case "say":
                 CommandLab.say(

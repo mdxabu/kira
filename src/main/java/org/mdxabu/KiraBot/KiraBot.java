@@ -64,7 +64,9 @@ public class KiraBot extends ListenerAdapter {
                         .addChoice("Rock", "rock")
                         .addChoice("Paper", "paper")
                         .addChoice("Scissors", "scissors")
-                )
+                ),
+                    Commands.slash("roll","Roll a dice")
+
             )
             .queue(
                 success ->
